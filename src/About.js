@@ -1,16 +1,19 @@
 import { Button } from 'bootstrap';
 import React,{useEffect, useState} from 'react'
+import './App.css';
 
 const About = () => {
 
     const [cityData, setCityData] = useState({});
     const [cityName, setCitName] = useState("");
 
-    console.log(cityName);
+    
+
+    console.log(Object.keys(cityData).length);
 
     useEffect(() =>{
         Entercity()
-    },[])
+    },[cityName])
 
     const Entercity =  async () =>{
         console.log(cityName);
@@ -19,13 +22,17 @@ const About = () => {
         await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityVal}&appid=d6976020e561513dc126e9bede48d8c6`)
       .then(res => res.json())
       .then(result => {
-        console.log(result);
+        
         setCityData(result);
       });
         
         
     }
 
+
+
+
+      console.log("isObjectEmpty",cityData);
 
 
 
@@ -46,10 +53,13 @@ const About = () => {
           className='search_bar_input'
           
           />
-         <button className="button button4" onClick={Entercity}>
-            Search
-          </button>
+     <div className='giveHeight'>
+     <button className="btn btn-primary" onClick={Entercity}>
+          <span className="btn-label">Search</span>
+        </button>
         
+     </div>
+         
       </div>
              
              
@@ -61,11 +71,19 @@ const About = () => {
                  </div>
 
              <div class="main_layer">
-                 <p id="city_name">Get Output Here</p>
-                 <div class="middle_layer data_hide">
-                    <p id="temp"><span>16.49</span><sup>o</sup>C</p>
-                    <p id="temp_status"><i class="fa fa-cloud" aria-hidden="true"></i></p>
-                 </div>
+             <p id="city_name">Your City <span>: {cityData.cod == 200 ? cityData.name : ""}</span></p>
+
+                 <p id="city_name">Today Weather<span>: {cityData.cod == 200 ? cityData.weather[0].main : ""}</span> </p>
+
+                 <p id="city_name">Min Temp<span>: {cityData.cod == 200 ? cityData.main.temp_min : ""}</span> </p>
+
+                 <p id="city_name">Max Temp<span>: {cityData.cod == 200 ? cityData.main.temp_max : ""}</span> </p>
+
+                 <p id="city_name">Humidity<span>: {cityData.cod == 200 ? cityData.main.humidity : ""}</span> </p>
+
+                 <p id="city_name">wind Speed<span>: {cityData.cod == 200 ? cityData.wind.speed: ""}</span> </p>
+               
+             
 
              </div>
         
